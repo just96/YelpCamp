@@ -1,3 +1,4 @@
+// Main app setup
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -15,8 +16,8 @@ const campgroundRoutes = require("./routes/campgrounds.js");
 const reviewsRoutes = require("./routes/reviews.js");
 const user = require("./models/user");
 
+// Connect to DB
 mongoose.connect("mongodb://localhost:27017/yelp-camp");
-
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -25,14 +26,17 @@ db.once("open", () => {
 
 const app = express();
 
+// View engine
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Session Config
 const sessionConfig = {
   secret: "thisshouldbeabettersecret!",
   resave: false,
@@ -47,6 +51,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+// Passport config
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -54,6 +59,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Flash and current user middleware
 app.use((req, res, next) => {
   // if (!["/login", "/"].includes(req.originalUrl)) {
   //   req.session.returnTo = req.originalUrl;
@@ -64,24 +70,29 @@ app.use((req, res, next) => {
   next();
 });
 
+// Routes
 app.use("/", userRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/reviews", reviewsRoutes);
 
+// Home route
 app.get("/", (req, res) => {
   res.render("home");
 });
 
+// 404 handler
 app.all(/(.*)/, (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
 });
 
+// Error handler
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = "Oh no, something went wrong!";
   res.status(statusCode).render("error", { err });
 });
 
+// Start server port 3000
 app.listen(3000, () => {
   console.log("Serving on port 3000");
 });

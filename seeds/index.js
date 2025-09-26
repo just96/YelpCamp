@@ -1,3 +1,4 @@
+// Seed database for campgrounds
 const mongoose = require("mongoose");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
@@ -11,8 +12,10 @@ db.once("open", () => {
   console.log("Database connected");
 });
 
+// Helper to pick random element
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
+// Seed function
 const seedDB = async () => {
   await Campground.deleteMany({});
   for (let i = 0; i < 50; i++) {
@@ -31,6 +34,7 @@ const seedDB = async () => {
   }
 };
 
+// Run seed and close DB after
 seedDB().then(() => {
   mongoose.connection.close();
 });

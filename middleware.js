@@ -3,6 +3,7 @@ const ExpressError = require("./utils/ExpressError");
 const Campground = require("./models/campground");
 const Review = require("./models/review.js");
 
+// Check if user is logged in
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl; // add this line
@@ -12,6 +13,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   next();
 };
 
+// Validate campground data
 module.exports.validateCampground = (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body);
   if (error) {
@@ -22,6 +24,7 @@ module.exports.validateCampground = (req, res, next) => {
   }
 };
 
+// Check if user is the author of campground
 module.exports.isAuthor = async (req, res, next) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
@@ -32,6 +35,7 @@ module.exports.isAuthor = async (req, res, next) => {
   next();
 };
 
+// Store return URL for redirect after login
 module.exports.storeReturnTo = (req, res, next) => {
   if (req.session.returnTo) {
     res.locals.returnTo = req.session.returnTo;
@@ -39,6 +43,7 @@ module.exports.storeReturnTo = (req, res, next) => {
   next();
 };
 
+// Validate review data
 module.exports.validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
   if (error) {
@@ -49,6 +54,7 @@ module.exports.validateReview = (req, res, next) => {
   }
 };
 
+// Check if user is the author of review
 module.exports.isReviewAuthor = async (req, res, next) => {
   const { id, reviewId } = req.params;
   const review = await Review.findById(reviewId);

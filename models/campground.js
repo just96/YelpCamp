@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Review = require("./review");
 const Schema = mongoose.Schema;
 
-// Definir o schema do Campground (estrutura dos documentos)
+// Campground schema
 const CampgroundSchema = new Schema({
   title: String,
   image: String,
@@ -21,6 +21,7 @@ const CampgroundSchema = new Schema({
   ],
 });
 
+// Delete associated reviews when a campground is deleted
 CampgroundSchema.post("findOneAndDelete", async function (doc) {
   if (doc) {
     await Review.deleteMany({
@@ -31,5 +32,5 @@ CampgroundSchema.post("findOneAndDelete", async function (doc) {
   }
 });
 
-// Criar e exportar o model baseado no schema
+// Export model
 module.exports = mongoose.model("Campground", CampgroundSchema);

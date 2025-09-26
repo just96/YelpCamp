@@ -1,3 +1,4 @@
+// Custom error class with status code
 class ExpressError extends Error {
   constructor(message, statusCode) {
     super();
@@ -6,4 +7,5 @@ class ExpressError extends Error {
   }
 }
 
+// Export ExpressError
 module.exports = ExpressError;

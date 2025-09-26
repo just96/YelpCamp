@@ -1,3 +1,4 @@
+// User routes
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
@@ -5,10 +6,12 @@ const catchAsync = require("../utils/catchAsync");
 const passport = require("passport");
 const { storeReturnTo } = require("../middleware");
 
+// Show register form
 router.get("/register", (req, res) => {
   res.render("users/register");
 });
 
+// Handle user registration
 router.post(
   "/register",
   catchAsync(async (req, res) => {
@@ -28,10 +31,12 @@ router.post(
   })
 );
 
+// Show login form
 router.get("/login", (req, res) => {
   res.render("users/login");
 });
 
+// Handle login
 router.post(
   "/login",
   storeReturnTo,
@@ -43,6 +48,7 @@ router.post(
   }
 );
 
+// Handle logout
 router.get("/logout", (req, res) => {
   req.logout(function (err) {
     if (err) return next(err);
@@ -51,4 +57,5 @@ router.get("/logout", (req, res) => {
   });
 });
 
+// Export router
 module.exports = router;

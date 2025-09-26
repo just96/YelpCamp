@@ -1,3 +1,4 @@
+// Review routes
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
@@ -5,6 +6,7 @@ const Review = require("../models/review.js");
 const Campground = require("../models/campground");
 const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 
+// Create new review
 router.post(
   "/",
   isLoggedIn,
@@ -21,6 +23,7 @@ router.post(
   })
 );
 
+// Delete review
 router.delete(
   "/:reviewId",
   isLoggedIn,
@@ -34,4 +37,5 @@ router.delete(
   })
 );
 
+// Export router
 module.exports = router;

@@ -1,9 +1,11 @@
+// Campground routes
 const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const Campground = require("../models/campground");
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 
+// Show all campgrounds
 router.get(
   "/",
   catchAsync(async (req, res) => {
@@ -12,10 +14,12 @@ router.get(
   })
 );
 
+// Form to create new campground
 router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 
+// Create new campground
 router.post(
   "/",
   isLoggedIn,
@@ -29,6 +33,7 @@ router.post(
   })
 );
 
+// Show single campground with reviews
 router.get(
   "/:id",
   catchAsync(async (req, res) => {
@@ -49,6 +54,7 @@ router.get(
   })
 );
 
+// Form to edit campground
 router.get(
   "/:id/edit",
   isLoggedIn,
@@ -64,6 +70,7 @@ router.get(
   })
 );
 
+// Update campground
 router.put(
   "/:id",
   isLoggedIn,
@@ -77,6 +84,7 @@ router.put(
   })
 );
 
+// Delete campground
 router.delete(
   "/:id",
   isLoggedIn,
@@ -89,4 +97,5 @@ router.delete(
   })
 );
 
+// Export router
 module.exports = router;
