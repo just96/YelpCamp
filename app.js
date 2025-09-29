@@ -1,8 +1,6 @@
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+  require("dotenv").config({ quiet: true });
 }
-console.log(process.env.SECRET);
-console.log(process.env.API_KEY);
 
 // Main app setup
 const express = require("express");
@@ -23,7 +21,7 @@ const reviewsRoutes = require("./routes/reviews.js");
 const user = require("./models/user");
 
 // Connect to DB
-mongoose.connect("mongodb://localhost:27017/yelp-camp");
+mongoose.connect("mongodb://localhost:27017/yelp-camp-maptiler");
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
