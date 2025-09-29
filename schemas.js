@@ -9,6 +9,7 @@ module.exports.campgroundSchema = Joi.object({
     location: Joi.string().required(),
     description: Joi.string().required(),
   }).required(),
+  deteleImages: Joi.array(),
 });
 
 // Review validation schema
