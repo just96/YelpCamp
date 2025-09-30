@@ -14,11 +14,11 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
-
 const userRoutes = require("./routes/users.js");
 const campgroundRoutes = require("./routes/campgrounds.js");
 const reviewsRoutes = require("./routes/reviews.js");
-const user = require("./models/user");
+const sanitizeV5 = require("./utils/mongoSanitizeV5.js");
+const helmet = require("helmet");
 
 // Connect to DB
 mongoose.connect("mongodb://localhost:27017/yelp-camp");
@@ -30,6 +30,8 @@ db.once("open", () => {
 
 const app = express();
 
+app.set("query parser", "extended");
+
 // View engine
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -39,14 +41,17 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(sanitizeV5({ replaceWith: "_" }));
 
 // Session Config
 const sessionConfig = {
+  name: "session",
   secret: "thisshouldbeabettersecret!",
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -54,6 +59,49 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(helmet());
+
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com/",
+  "https://kit.fontawesome.com/",
+  "https://cdnjs.cloudflare.com/",
+  "https://cdn.jsdelivr.net",
+  "https://cdn.maptiler.com/", // add this
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com/",
+  "https://stackpath.bootstrapcdn.com/",
+  "https://fonts.googleapis.com/",
+  "https://use.fontawesome.com/",
+  "https://cdn.jsdelivr.net",
+  "https://cdn.maptiler.com/", // add this
+];
+const connectSrcUrls = [
+  "https://api.maptiler.com/", // add this
+];
+const fontSrcUrls = [];
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", "blob:"],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+        "https://res.cloudinary.com/dzcnp51if/**", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://images.unsplash.com/",
+        "https://api.maptiler.com/",
+        "https://www.imovirtual.com/noticias/wp-content/uploads/2020/08/c8c3f5d1-e449-4fc6-9eba-5ba2ae84d60e_4a0fde85-f640-4240-aeab-123f12e64cb8_iStock-584589782.jpg",
+      ],
+      fontSrc: ["'self'", ...fontSrcUrls],
+    },
+  })
+);
 
 // Passport config
 app.use(passport.initialize());
@@ -65,9 +113,6 @@ passport.deserializeUser(User.deserializeUser());
 
 // Flash and current user middleware
 app.use((req, res, next) => {
-  // if (!["/login", "/"].includes(req.originalUrl)) {
-  //   req.session.returnTo = req.originalUrl;
-  // }
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
