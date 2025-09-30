@@ -1,0 +1,25 @@
+body {
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://www.imovirtual.com/noticias/wp-content/uploads/2020/08/c8c3f5d1-e449-4fc6-9eba-5ba2ae84d60e_4a0fde85-f640-4240-aeab-123f12e64cb8_iStock-584589782.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.cover-container {
+  max-width: 60vw;
+}
+
+.nav-link {
+  padding: 0.25rem 0;
+  font-size: large;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 1rem;
+  border-bottom: 2px solid transparent; /* sempre presente */
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 0.75);
+  border-bottom-color: rgba(255, 255, 255, 0.5); /* só muda a cor */
+}
