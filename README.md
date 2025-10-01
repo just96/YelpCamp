@@ -1,6 +1,6 @@
 # ⛺ YelpCamp  
 
-A web application where users can create, search, and review campgrounds.  
+A CRUD web application where users can create, read, update and delete campgrounds.  
 Full-stack project built with **Node.js, Express, and MongoDB**.  
 
 🌍 **Live Demo**: [YelpCamp on Render](https://yelpcamp-a5ff.onrender.com/)  
