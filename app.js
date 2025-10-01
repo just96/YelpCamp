@@ -9,7 +9,6 @@ const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const ExpressError = require("./utils/ExpressError");
-const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -18,10 +17,13 @@ const userRoutes = require("./routes/users.js");
 const campgroundRoutes = require("./routes/campgrounds.js");
 const reviewsRoutes = require("./routes/reviews.js");
 const sanitizeV5 = require("./utils/mongoSanitizeV5.js");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const dbUrl = "mongodb://localhost:27017/yelp-camp";
 const helmet = require("helmet");
 
 // Connect to DB
-mongoose.connect("mongodb://localhost:27017/yelp-camp");
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -43,8 +45,21 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(sanitizeV5({ replaceWith: "_" }));
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "thisshouldbeabettersecret!",
+  },
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR!");
+});
+
 // Session Config
 const sessionConfig = {
+  store,
   name: "session",
   secret: "thisshouldbeabettersecret!",
   resave: false,

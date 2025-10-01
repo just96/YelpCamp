@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Review = require("./review");
-const { func } = require("joi");
 const opts = { toJSON: { virtuals: true } };
 const Schema = mongoose.Schema;
 
