@@ -19,7 +19,7 @@ const reviewsRoutes = require("./routes/reviews.js");
 const sanitizeV5 = require("./utils/mongoSanitizeV5.js");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const dbUrl = "mongodb://localhost:27017/yelp-camp";
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
 const helmet = require("helmet");
 
 // Connect to DB
