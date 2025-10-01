@@ -1,33 +1,38 @@
-YelpCamp
+⛺ YelpCamp
 
 A web application where users can create, search, and review campgrounds.
 Full-stack project built with Node.js, Express, and MongoDB.
 
-Features
+🌍 Live Demo: [YelpCamp on Render](https://yelpcamp-a5ff.onrender.com/)
 
-User authentication (login/register)
+✨ Features
 
-Campgrounds CRUD (create, edit, delete, list)
+🔑 User authentication (login/register)
 
-Reviews and ratings
+🏕️ Campgrounds CRUD (create, edit, delete, list)
 
-Image upload
+⭐ Reviews and ratings
 
-Map location (Maptiler)
+📸 Image upload (Cloudinary)
 
-Responsive UI with EJS + Bootstrap
+🗺️ Map integration (Maptiler)
 
-Tech Stack
+📱 Responsive UI (EJS + Bootstrap)
 
-Backend: Node.js + Express
+🛠️ Tech Stack
 
-Database: MongoDB + Mongoose
+⚙️ Backend: Node.js + Express
 
-Frontend: EJS + Bootstrap
+🗄️ Database: MongoDB + Mongoose
 
-Extras: Passport.js, Cloudinary, Maptiler
+🎨 Frontend: EJS + Bootstrap
 
-Run Locally
+🧩 Extras: Passport.js, Cloudinary, Maptiler
+
+🚀 Run Locally
+
+Clone the repo:
+
 git clone <repo-url>
 cd YelpCamp
 npm install
@@ -43,10 +48,11 @@ MAPTILER_API_KEY=<token>
 SECRET=<yoursecret>
 
 
-Then run:
+Start the app:
 
 npm start
 
 
 App available at:
-👉 http://localhost:3000 || https://yelpcamp-a5ff.onrender.com/
+👉 http://localhost:3000
+👉 [YelpCamp on Render](https://yelpcamp-a5ff.onrender.com/)
