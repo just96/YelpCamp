@@ -8,12 +8,11 @@
 <div class="card mb-3">
   <div class="row">
     <div class="col-md-4">
-                <%if(campground.images.length) {%>
-                <img class="img-fluid" alt="" src="<%=campground.images[0].url%>">
-                <% }else {%>
-                <img class="img-fluid" alt=""
-                    src="https://res.cloudinary.com/dzcnp51if/image/upload/v1759243615/YelpCamp/j7uxxixbohu5rzqtk0sp.jpg">
-                <% } %>
+                <% if (campground.images.length) { %>
+    <img crossorigin="anonymous" class="img-fluid" alt="" src="<%= campground.images[0].url %>">
+<% } else { %>
+    <img crossorigin="anonymous" class="img-fluid" alt="" src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png">
+<% } %>
             </div>
     <div class="col-mg-8">
       <div class="card-body">

@@ -93,7 +93,7 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "https://res.cloudinary.com/dzcnp51if/**", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://res.cloudinary.com/dzcnp51if/",
         "https://images.unsplash.com/",
         "https://api.maptiler.com/",
         "https://www.imovirtual.com/noticias/wp-content/uploads/2020/08/c8c3f5d1-e449-4fc6-9eba-5ba2ae84d60e_4a0fde85-f640-4240-aeab-123f12e64cb8_iStock-584589782.jpg",
